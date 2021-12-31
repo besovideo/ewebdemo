@@ -1,7 +1,7 @@
 <!--
  * @Author: Shirtiny
  * @Date: 2021-12-30 13:53:41
- * @LastEditTime: 2021-12-30 17:25:48
+ * @LastEditTime: 2021-12-31 19:11:06
  * @Description: 
 -->
 <template>
@@ -23,6 +23,7 @@
         <button v-else @click="destroy">销毁播放器</button>
       </template>
     </p>
+    <!-- 播放器容器 -->
     <div ref="playerContainer" class="player-container"></div>
     <p v-if="instance">
       <!-- 打开和关闭 -->
@@ -35,8 +36,8 @@
       <template>
         <label>适应容器：</label>
         <select :value="videoFit" @change="handleVideoFit">
-          <option>fill</option>
-          <option>contain</option>
+          <option value="contain">保持比例</option>
+          <option value="fill">填充</option>
         </select>
       </template>
 
@@ -51,8 +52,14 @@
         <button @click="move">更换容器</button>
       </template>
     </p>
+    <!-- 播放器容器2 -->
     <div ref="playerContainer2" class="player-container2"></div>
     <h3>回调</h3>
+    <p>
+      <button v-if="messages.length" @click="() => (messages = [])">
+        清空
+      </button>
+    </p>
     <pre>{{ messages.join("\n") }}</pre>
   </div>
 </template>
@@ -100,13 +107,19 @@ export default {
         // (可选) 启用控制器
         enableController: true,
         onConnected: () => {
-          this.messages.push("onConnected 执行");
+          this.messages.push("onConnected 连接已建立");
         },
         onConnectedFailed: () => {
-          this.messages.push("onConnectedFailed 执行");
+          this.messages.push("onConnectedFailed 连接建立失败");
+        },
+        onClose: () => {
+          this.messages.push("onClose 连接已关闭（播放器关闭）");
         },
         onDisConnected: () => {
-          this.messages.push("onDisConnected 执行");
+          this.messages.push("onDisConnected  连接已关闭（服务器断开连接）");
+        },
+        onDestroy: () => {
+          this.messages.push("onDestroy 播放器实例已销毁");
         },
       });
 

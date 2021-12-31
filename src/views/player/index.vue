@@ -1,17 +1,21 @@
 <!--
  * @Author: Shirtiny
  * @Date: 2021-12-30 14:08:17
- * @LastEditTime: 2021-12-30 16:44:04
+ * @LastEditTime: 2021-12-31 15:17:30
  * @Description: 
 -->
 <template>
   <div class="player">
     <h3 class="title">获取token</h3>
-    <p>
-      <input v-model="username" type="text" placeholder="用户名" />
-      <input v-model="password" type="password" placeholder="密码" />
-      <button @click="login">登录</button>
-    </p>
+
+    <form @submit.prevent="login">
+      <p>
+        <input v-model="username" type="text" placeholder="用户名" />
+        <input v-model="password" type="password" placeholder="密码" />
+        <button>登录</button>
+      </p>
+    </form>
+
     <p class="text">登录结果: {{ result }}</p>
     <p class="text">当前token: {{ token }}</p>
 
