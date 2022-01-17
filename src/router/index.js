@@ -37,6 +37,18 @@ const routes = [
       },
     ],
   },
+  {
+    path: "/intercom",
+    name: "Talker",
+    component: () => import("../views/intercom/index.vue"),
+    redirect: "/intercom/intercom",
+    children: [
+      {
+        path: "intercom",
+        component: () => import("../views/intercom/intercom.vue"),
+      },
+    ],
+  },
 ];
 
 const router = new VueRouter({

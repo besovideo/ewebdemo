@@ -13,7 +13,9 @@
       <li>
         <router-link to="/player/puPlayer"> 视频 </router-link>
       </li>
-      <li>对讲</li>
+      <li>
+        <router-link to="/intercom/intercom"> 对讲 </router-link>
+      </li>
       <li>会议</li>
     </ul>
     <h3>其他</h3>
