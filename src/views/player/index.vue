@@ -8,18 +8,19 @@
   <div class="player">
     <h3 class="title">获取token</h3>
 
-    <form @submit.prevent="login">
+    <form @submit.prevent="loginout">
       <p>
         <input v-model="username" type="text" placeholder="用户名" />
         <input v-model="password" type="password" placeholder="密码" />
-        <button>登录</button>
+        <button v-if="!isLogin">登录</button>
+        <button v-else>退出登录</button>
       </p>
     </form>
 
-    <p class="text">登录结果: {{ result }}</p>
+    <p class="text">结果: {{ result }}</p>
     <p class="text">当前token: {{ token }}</p>
 
-    <router-view :token="token"></router-view>
+    <router-view :token="token" :username="username"></router-view>
   </div>
 </template>
 
@@ -31,13 +32,18 @@ export default {
   name: "Player",
   data() {
     return {
-      username: "admin",
+      username: "root",
       password: "123456",
+      isLogin: false,
       result: "",
       token: "",
     };
   },
   methods: {
+    async loginout() {
+      if (this.isLogin) this.logout();
+      else this.login();
+    },
     // 登录
     async login() {
       const { username, password } = this;
@@ -60,6 +66,33 @@ export default {
           this.result += ` code: ${res.code}, msg: ${res.msg}`;
           // 设置token
           this.token = res.data?.token;
+          this.isLogin = true;
+          return;
+        }
+        throw new Error(this.result);
+      } catch (e) {
+        console.error(e);
+      }
+    },
+    async logout() {
+      const token = this.token;
+      if (!token) return;
+      try {
+        const r = await fetch("/bvcsp/v1/auth/logout", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: token,
+          },
+        });
+        this.result = `${r.status} ${r.statusText}`;
+
+        if (r.ok || (r.status >= 200 && r.status < 300)) {
+          const res = await r.json();
+          this.result += ` code: ${res.code}, msg: ${res.msg}`;
+          // 设置token
+          this.token = "";
+          this.isLogin = false;
           return;
         }
         throw new Error(this.result);
@@ -77,7 +110,7 @@ export default {
 
 <style scoped lang="less">
 .player {
-  width: 500px;
+  width: 560px;
   .title {
     text-align: left;
   }

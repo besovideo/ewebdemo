@@ -29,15 +29,13 @@
         <button v-else @click="hide">隐藏</button>
       </template>
     </p>
-    <p v-for="(item, index) in messages" :key="index">{{index}}.{{ item }}</p>
+    <p v-for="(item, index) in messages" :key="index">{{ index }}.{{ item }}</p>
     <!-- <pre>{{ messages.join("\n") }}</pre> -->
   </div>
 </template>
 
 <script>
-import {
-  Intercom,
-} from "@besovideo/webrtc-player";
+import { Intercom } from "@besovideo/webrtc-player";
 import "@besovideo/webrtc-player/dist/main.es.css";
 
 export default {

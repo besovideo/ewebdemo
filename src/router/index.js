@@ -35,17 +35,13 @@ const routes = [
         path: "puPlayer",
         component: () => import("../views/player/puPlayer.vue"),
       },
-    ],
-  },
-  {
-    path: "/intercom",
-    name: "Talker",
-    component: () => import("../views/intercom/index.vue"),
-    redirect: "/intercom/intercom",
-    children: [
       {
         path: "intercom",
-        component: () => import("../views/intercom/intercom.vue"),
+        component: () => import("../views/player/intercom.vue"),
+      },
+      {
+        path: "conference",
+        component: () => import("../views/player/conference.vue"),
       },
     ],
   },
