@@ -67,6 +67,8 @@ export default {
           // 设置token
           this.token = res.data?.token;
           this.isLogin = true;
+          this.setCookie("Authorization",this.token,res.data?.timeout);
+
           return;
         }
         throw new Error(this.result);
@@ -100,6 +102,44 @@ export default {
         console.error(e);
       }
     },
+    setCookie: function (cname, cvalue, exsecond) {
+      var d = new Date();
+      d.setTime(d.getTime() + (exsecond * 1000));
+      var expires = "expires=" + d.toUTCString();
+      console.info(cname + "=" + cvalue + "; " + expires);
+      document.cookie = cname + "=" + cvalue + "; " + expires;
+      console.info(document.cookie);
+    },
+    //获取cookie
+    getCookie: function (cname) {
+      var name = cname + "=";
+      var ca = document.cookie.split(';');
+      console.log("获取cookie,现在循环")
+      for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        console.log(c)
+        while (c.charAt(0) == ' ') c = c.substring(1);
+        if (c.indexOf(name) != -1){
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
+    },
+    //清除cookie
+    clearCookie: function () {
+      this.setCookie("username", "", -1);
+    },
+    checkCookie: function () {
+      var user = this.getCookie("username");
+      if (user != "") {
+        alert("Welcome again " + user);
+      } else {
+        user = prompt("Please enter your name:", "");
+        if (user != "" && user != null) {
+          this.setCookie("username", user, 365);
+        }
+      }
+    }
   },
   mounted() {
     // 释放全部本地播放器打开过的dialog
@@ -110,7 +150,7 @@ export default {
 
 <style scoped lang="less">
 .player {
-  width: 560px;
+  width: 720px;
   .title {
     text-align: left;
   }

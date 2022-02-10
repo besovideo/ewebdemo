@@ -43,6 +43,10 @@ const routes = [
         path: "conference",
         component: () => import("../views/player/conference.vue"),
       },
+      {
+        path: "playback",
+        component: () => import("../views/player/playback.vue"),
+      },
     ],
   },
 ];

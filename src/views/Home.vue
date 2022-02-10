@@ -19,6 +19,9 @@
       <li>
         <router-link to="/player/conference"> 会议 </router-link>
       </li>
+      <li>
+        <router-link to="/player/playback"> 回放 </router-link>
+      </li>
     </ul>
     <h3>其他</h3>
   </div>

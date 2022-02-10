@@ -16,6 +16,11 @@ module.exports = {
         target: "https://192.168.6.111:9781",
         ws: true,
         changeOrigin: true,
+      },
+      "^/bvnru": {
+        target: "https://192.168.6.111:9781",
+        ws: true,
+        changeOrigin: true,
       }
     },
     // 此处开启 https
