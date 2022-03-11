@@ -1,9 +1,3 @@
-<!--
- * @Author: Shirtiny
- * @Date: 2021-12-30 14:08:17
- * @LastEditTime: 2021-12-31 15:17:30
- * @Description: 
--->
 <template>
   <div class="player">
     <h3 class="title">获取token</h3>
@@ -101,6 +95,29 @@ export default {
       } catch (e) {
         console.error(e);
       }
+    },
+    setCookie: function (cname, cvalue, exsecond) {
+      var d = new Date();
+      d.setTime(d.getTime() + (exsecond * 1000));
+      var expires = "expires=" + d.toUTCString();
+      console.info(cname + "=" + cvalue + "; " + expires);
+      document.cookie = cname + "=" + cvalue + "; " + expires;
+      console.info(document.cookie);
+    },
+    //获取cookie
+    getCookie: function (cname) {
+      var name = cname + "=";
+      var ca = document.cookie.split(';');
+      console.log("获取cookie,现在循环")
+      for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        console.log(c)
+        while (c.charAt(0) == ' ') c = c.substring(1);
+        if (c.indexOf(name) != -1){
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
     },
     //清除cookie
     clearCookie: function () {

@@ -24,6 +24,11 @@
       </li>
     </ul>
     <h3>其他</h3>
+    <ul>
+      <li>
+        <router-link to="/others/subscribe"> 订阅 </router-link>
+      </li>
+    </ul>
   </div>
 </template>
 

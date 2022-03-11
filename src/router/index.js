@@ -49,6 +49,17 @@ const routes = [
       },
     ],
   },
+  {
+    path: "/others",
+    name: "Others",
+    component: () => import("../views/others/index.vue"),
+    children: [
+      {
+        path: "subscribe",
+        component: () => import("../views/others/subscribe.vue"),
+      },
+    ],
+  },
 ];
 
 const router = new VueRouter({
