@@ -8,7 +8,11 @@
   <div class="player_puplayer-demo">
     <h3>视频播放 PuPlayer</h3>
     <p>
-      <input v-model="id" type="text" placeholder="设备ID" />
+      <button @click="puList">查看设备列表</button>
+      <select style="width:150px"  @change="dange">
+          <Option>请选择设备</Option>
+          <Option v-for="(item,index) in id" :key="index" >{{item.id}}</Option>         
+      </select> 
       <label>通道号：</label
       ><input
         v-model.number="index"
@@ -66,7 +70,6 @@
 
 <script>
 import { PuPlayer } from "@besovideo/webrtc-player";
-
 export default {
   name: "PuPlayerDemo",
   props: {
@@ -74,7 +77,8 @@ export default {
   },
   data() {
     return {
-      id: "UA_26B1D2E6",
+      r:"",
+      id: [],
       index: 0,
       videoFit: "fill",
 
@@ -95,7 +99,7 @@ export default {
         // 必填 设备选项
         puOption: {
           // 设备id
-          id: this.id,
+          id: this.r,
           // 设备通道号
           index: 0,
         },
@@ -124,6 +128,50 @@ export default {
       });
 
       this.instance = instance;
+    },
+    dange(e){
+      this.r=e.target.value;
+      console.log(this.r);
+    },
+    //获取设备列表
+    async puList(){
+      if (!this.token) return;
+      try{
+        const r=await fetch("/bvcsp/v1/pu/list",{
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: this.token,
+          },
+          body: JSON.stringify({
+            page: 0,
+            pageSize: 1000,
+            needStatus:true
+          }),
+        });
+      if (r.ok || (r.status >= 200 && r.status < 300)) {
+          const res = await r.json();
+          //console.log(JSON.stringify(res));
+          let data = res.data;
+          this.id = [];
+          if (data) {
+            data.forEach((item) => {
+              if(item.status==1){
+                let obj = {
+                id: item.id,
+              };
+                //console.log(obj);
+                this.id.push(obj);
+              }
+            });
+          }
+          //console.log(this.id);
+          return;
+        }
+        //throw new Error(`${r.status} ${r.statusText}`);
+      }catch(e){
+        console.error(e);
+      }  
     },
     // 销毁
     destroy() {

@@ -32,7 +32,7 @@ export default {
   name: "Player",
   data() {
     return {
-      username: "root",
+      username: "admin",
       password: "123456",
       isLogin: false,
       result: "",

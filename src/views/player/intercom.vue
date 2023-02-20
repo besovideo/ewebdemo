@@ -2,9 +2,13 @@
 -->
 <template>
   <div class="player_puplayer-demo">
-    <h3>Hello</h3>
+    <h3>对讲</h3>
     <p>
-      <input v-model="id" type="text" placeholder="设备ID" />
+      <button @click="puList">查看设备列表</button>
+      <select style="width:150px"  @change="dange">
+          <Option>请选择设备</Option>
+          <Option v-for="(item,index) in id" :key="index" >{{item.id}}</Option>         
+      </select>
       <label>通道号：</label>
       <input v-model.number="index" type="text" placeholder="通道号 （数字）" />
     </p>
@@ -45,7 +49,8 @@ export default {
   },
   data() {
     return {
-      id: "PU_8601",
+      r:"",
+      id: [],
       index: 0,
       instance: null,
 
@@ -86,6 +91,50 @@ export default {
       //this.messages.push("toeken:" + this.token);
       this.messages.push("init 初始化成功");
       this.instance = instance;
+    },
+    dange(e){
+      this.r=e.target.value;
+      console.log(this.r);
+    },
+    //获取设备列表
+    async puList(){
+      if (!this.token) return;
+      try{
+        const r=await fetch("/bvcsp/v1/pu/list",{
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: this.token,
+          },
+          body: JSON.stringify({
+            page: 0,
+            pageSize: 1000,
+            needStatus:true
+          }),
+        });
+      if (r.ok || (r.status >= 200 && r.status < 300)) {
+          const res = await r.json();
+          //console.log(JSON.stringify(res));
+          let data = res.data;
+          this.id = [];
+          if (data) {
+            data.forEach((item) => {
+              if(item.status==1){
+                let obj = {
+                id: item.id,
+              };
+                //console.log(obj);
+                this.id.push(obj);
+              }
+            });
+          }
+          //console.log(this.id);
+          return;
+        }
+        //throw new Error(`${r.status} ${r.statusText}`);
+      }catch(e){
+        console.error(e);
+      }  
     },
     // 销毁
     destroy() {

@@ -8,17 +8,17 @@ module.exports = {
   devServer: {
     proxy: {
       "^/bvcsp": {
-        target: "https://192.168.6.111:9781",
+        target: "https://192.168.6.56:9781",
         ws: true,
         changeOrigin: true,
       },
       "^/bvvtdu": {
-        target: "https://192.168.6.111:9781",
+        target: "https://192.168.6.56:9781",
         ws: true,
         changeOrigin: true,
       },
       "^/bvnru": {
-        target: "https://192.168.6.111:9781",
+        target: "https://192.168.6.56:9781",
         ws: true,
         changeOrigin: true,
       }
