@@ -39,9 +39,14 @@ const routes = [
         path: "intercom",
         component: () => import("../views/player/intercom.vue"),
       },
-      {
+      
+      {  
         path: "conference",
         component: () => import("../views/player/conference.vue"),
+      },
+       {
+        path: "websocketConference",
+        component: () => import("../views/player/websocketConference.vue"),
       },
       {
         path: "playback",
