@@ -3,6 +3,11 @@
 <template>
   <div class="conferenceDiv" v-show="token != null && token != ''">
     <div>
+      步骤是登录--》开启会议--》邀请会议成员加入---》建立连接--》申请发言--》选择一个g771a文件---》将本地文件发送给后台--》这样设备就在播放g711a文件了，如果有不懂得可以联系我们提供远程指导
+      g711a文件可以建立连接后，设备端申请发言然后点下载为g711a文件就有了
+      请查看打印看连接是否建立成功
+    </div>
+    <div>
       <button :disabled="token == ''" @click="getGroupList">
         获取群组列表
       </button>
@@ -309,6 +314,8 @@ export default {
     },
     //获取会议成员列表，主要是用于判断那些群组成员加入了会议
     async getConferenceUserList() {
+      console.log(this.groups[this.groupIndex].id)
+      debugger
       if (!this.token || this.groups.length == 0) return;
       try {
         const r = await fetch(
@@ -636,8 +643,8 @@ export default {
 
         const res = await r.json();
         console.log(res.data.url);
-        console.log("ws://192.168.6.63:9780" + res.data.url);
-        var socket = new WebSocket("ws://192.168.6.63:9780" + res.data.url);
+        console.log("ws://192.168.6.57:9780" + res.data.url);
+        var socket = new WebSocket("ws://192.168.6.57:9780" + res.data.url);
         socket.binaryType = "arraybuffer"
         this.socket = socket
         this.interval = setInterval(function () {

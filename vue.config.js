@@ -8,22 +8,22 @@ module.exports = {
   devServer: {
     proxy: {
       "^/bvcsp": {
-        target: "https://192.168.6.56:9781",
+        target: "http://192.168.6.57:9780",
         ws: true,
         changeOrigin: true,
       },
       "^/bvvtdu": {
-        target: "https://192.168.6.56:9781",
+        target: "http://192.168.6.57:9780",
         ws: true,
         changeOrigin: true,
       },
       "^/bvnru": {
-        target: "https://192.168.6.56:9781",
+      target: "http://192.168.6.57:9780",
         ws: true,
         changeOrigin: true,
       }
     },
-    // 此处开启 https
-    https: true
+    
+   
   },
 };
