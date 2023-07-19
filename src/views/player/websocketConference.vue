@@ -157,26 +157,37 @@ export default {
       const reader = new FileReader();
 
 
-      reader.onload = (event) => {
-        const buffer = event.target.result;
+    
 
-        const newbuffer = new ArrayBuffer(buffer.byteLength + 16); // 新建一个长度为原始数据长度+16字节的ArrayBuffer
+   reader.onload = (event) => {
+        const buffer = new Uint8Array(event.target.result);
+        const chunkSize = 320;
+        const totalSize = buffer.byteLength;
+        const chunks = [];
 
-        // 将前16个字节全部设置为0
-        new DataView(newbuffer).setUint32(0, 0);
-        new DataView(newbuffer).setUint32(4, 0);
-        new DataView(newbuffer).setUint32(8, 0);
-        new DataView(newbuffer).setUint32(12, 0);
+        for (let i = 0; i < totalSize; i += chunkSize) {
+          const zeros = new Uint8Array(16);
+          const chunkWithZeros = new Uint8Array([...zeros, ...buffer.slice(i, i + chunkSize)]);
+          const chunk = chunkWithZeros.buffer;
+          chunks.push(chunk);
+        }
 
-        // 将原始数据复制到新的ArrayBuffer中
-        new Uint8Array(newbuffer, 16).set(new Uint8Array(buffer));
-        console.log(newbuffer)
+        const blobChunks = chunks.map(chunk => new Blob([chunk]));
 
-        const mergeBlod = new Blob([newbuffer]);
-        clearInterval(this.sendIntervalId);
-        this.sendIntervalId = setInterval(() => {
-          this.socket.send(mergeBlod);
-        }, 40);
+        const interval = 40; 
+        let index = 0; 
+
+        const sendNextChunk = () => {
+          if (index < blobChunks.length) {
+            this.socket.send(blobChunks[index]);
+            index++;
+          } else {
+            clearInterval(timer);
+            console.log("发送完成");
+          }
+        };
+
+        const timer = setInterval(sendNextChunk, interval);
       };
 
       reader.readAsArrayBuffer(file);
@@ -644,7 +655,7 @@ export default {
         const res = await r.json();
         console.log(res.data.url);
         console.log("ws://192.168.6.57:9780" + res.data.url);
-        var socket = new WebSocket("ws://192.168.6.57:9780" + res.data.url);
+        var socket = new WebSocket("ws://115.28.79.237" + res.data.url);
         socket.binaryType = "arraybuffer"
         this.socket = socket
         this.interval = setInterval(function () {
