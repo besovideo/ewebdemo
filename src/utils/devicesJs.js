@@ -1,8 +1,8 @@
 
 
 export default {
-  install: function(Vue){
-    Vue.prototype.getDevices = (token) => getDevices(token);
+  install: function(app){
+    app.config.globalProperties.getDevices = (token) => getDevices(token);
     // Vue.prototype.sayHelloWorld = sayHelloWorld;
   },
 }

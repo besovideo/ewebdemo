@@ -4,8 +4,8 @@
       
       <button @click="puList">查看设备列表</button>
         <select style="width:150px"  @change="dange">
-            <Option>请选择设备</Option>
-            <Option v-for="(item,index) in id" :key="index" >{{item.id}}</Option>         
+            <option>请选择设备</option>
+            <option v-for="(item,index) in id" :key="index" >{{item.id}}</option>         
         </select> 
       <!-- <input v-model.number="puid" type="text"/> -->
       <button @click="getDeviceFiles">设备文件检索</button>
@@ -13,6 +13,8 @@
       <button @click="cleanData">清空数据</button>
   
       <p/>
+      
+      <!-- <BvPlayback token="" ></BvPlayback> -->
       <table cellspacing="0px" v-show="recordFiles.length>0" border="1px">
         <tr align="center">
           <td>puID</td>
@@ -38,13 +40,32 @@
         </tr>
       </table>
     </div>
-    <div class="playback-player" v-if="mediaUrl" @click="mediaUrl = ''">
+    <!-- 点击play按钮之后弹出的视频回放 -->
+    <!-- <div class="playback-player" v-if="mediaUrl" @click="mediaUrl = ''">
       <video :src="mediaUrl" class="video" controls id="playback-video"></video>
-    </div>
+    </div> -->
+    <el-dialog
+    v-model="dialogVisible"
+    draggable
+    destroy-on-close
+    title="视频回放"
+    align-center
+    >
+      <!-- 视频回放组件的容器 -->
+      <!-- 
+        src:  视频播放的相对路径 平台文件:/bvnru/v1/download/文件ID  设备文件:/bvcsp/v1/pu/download/" + 设备ID + "/" + 文件ID
+        barrage: 是否开启弹幕，默认为false
+        apiPreUrl: src的前缀，默认为空
+       -->
+      <div style="width: 100%;height: 400px;">
+        <BvPlayback :src="SRC" :barrage="true"></BvPlayback>
+      </div>
+    </el-dialog>
   </div>
   </template>
   
   <script>
+  import BvPlayback from "bvplayback";
   export default {
     props: {
       token: String,
@@ -56,7 +77,11 @@
         puid: "",
         id:[],
         mediaUrl: "",
+        dialogVisible: false
       }
+    },
+    components: {
+      BvPlayback
     },
     methods: {
       dange(e){
@@ -114,7 +139,7 @@
             },
             body: JSON.stringify({
               page: 0,
-              pageSize: 100,
+              pageSize: 1000,
               filter: {
                 beginTime: 946656000,
                 endTime: Date.parse(new Date()) / 1000,
@@ -282,6 +307,8 @@
           if(!obj || !obj.url)
             throw new Error(`file is not exist!`);
           this.mediaUrl = obj.url;
+          console.log('视频的url',obj.url);
+          this.dialogVisible = true
         } catch (e) {
           console.error(e);
         }
@@ -315,11 +342,22 @@
         var s = time.getSeconds();
         return fixZero(y,4)+'/'+fixZero(m,2)+'/'+fixZero(d,2)+' '+fixZero(h,2)+':'+fixZero(mm,2)+':'+fixZero(s,2);
       },
+    },
+    computed: {
+      SRC() {
+        return this.mediaUrl
+        // const arr = this.mediaUrl.split('/')
+        // if(arr) {
+        //   return arr[arr.length - 1]
+        // }else {
+        //   return ''
+        // }
+      }
     }
   };
   </script>
   
-  <style>
+  <style scoped>
   #playback-video {
     height: 360px;
     width: 560px;  	
@@ -351,6 +389,9 @@
     /* margin-top: -500px; */
     z-index: 9999;
     background-color: rgba(177, 177, 177, 0.514);
+  }
+  .el-dialog {
+    height: 500px;
   }
   
   </style>

@@ -1,16 +1,7 @@
-/*
- * @Author: Shirtiny
- * @Date: 2021-12-30 13:33:35
- * @LastEditTime: 2021-12-30 14:09:24
- * @Description:
- */
-import Vue from "vue";
-import VueRouter from "vue-router";
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Home from "../views/Home.vue";
 
-Vue.use(VueRouter);
-
-const routes = [
+const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "Home",
@@ -65,10 +56,11 @@ const routes = [
       },
     ],
   },
-];
+]
 
-const router = new VueRouter({
-  routes,
-});
+const router = createRouter({
+  history: createWebHistory(process.env.BASE_URL),
+  routes
+})
 
-export default router;
+export default router

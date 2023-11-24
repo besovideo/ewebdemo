@@ -4,7 +4,9 @@
  * @LastEditTime: 2021-12-30 14:57:08
  * @Description:
  */
-module.exports = {
+const { defineConfig } = require('@vue/cli-service')
+module.exports = defineConfig({
+  transpileDependencies: true,
   devServer: {
     proxy: {
       "^/bvcsp": {
@@ -26,4 +28,4 @@ module.exports = {
     
    
   },
-};
+});

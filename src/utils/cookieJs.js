@@ -24,9 +24,9 @@ function getCookie(cname) {
 }
 
 export default {
-  install: function(Vue){
-    Vue.prototype.setCookie = (cname, cvalue, exsecond) => setCookie(cname, cvalue, exsecond);
-    Vue.prototype.getCookie = (cname) => getCookie(cname);
+  install: function(app){
+    app.config.globalProperties.setCookie = (cname, cvalue, exsecond) => setCookie(cname, cvalue, exsecond);
+    app.config.globalProperties.getCookie = (cname) => getCookie(cname);
     // Vue.prototype.sayHelloWorld = sayHelloWorld;
   },
 }

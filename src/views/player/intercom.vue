@@ -14,24 +14,18 @@
     </p>
     <p>
       <!-- 初始化和销毁 -->
-      <template>
-        <button v-if="!instance" @click="init">初始化播放器</button>
-        <button v-else @click="destroy">销毁播放器</button>
-      </template>
+      <button v-if="!instance" @click="init">初始化播放器</button>
+      <button v-else @click="destroy">销毁播放器</button>
     </p>
     <div ref="playerContainer" class="player-container"></div>
     <p v-if="instance">
       <!-- 打开和关闭 -->
-      <template>
-        <button v-if="closed" @click="open">建立连接</button>
-        <button v-else @click="close">关闭连接</button>
-      </template>
+      <button v-if="closed" @click="open">建立连接</button>
+      <button v-else @click="close">关闭连接</button>
 
       <!-- 显示和隐藏 -->
-      <template>
-        <button v-if="hidden" @click="display">显示</button>
-        <button v-else @click="hide">隐藏</button>
-      </template>
+      <button v-if="hidden" @click="display">显示</button>
+      <button v-else @click="hide">隐藏</button>
     </p>
     <p v-for="(item, index) in messages" :key="index">{{ index }}.{{ item }}</p>
     <!-- <pre>{{ messages.join("\n") }}</pre> -->

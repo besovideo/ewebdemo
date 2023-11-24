@@ -22,39 +22,35 @@
     </p>
     <p>
       <!-- 初始化和销毁 -->
-      <template>
-        <button v-if="!instance" @click="init">初始化播放器</button>
-        <button v-else @click="destroy">销毁播放器</button>
-      </template>
+      <button v-if="!instance" @click="init">初始化播放器</button>
+      <button v-else @click="destroy">销毁播放器</button>
+    
     </p>
     <!-- 播放器容器 -->
     <div ref="playerContainer" class="player-container"></div>
     <p v-if="instance">
       <!-- 打开和关闭 -->
-      <template>
-        <button v-if="closed" @click="open">建立连接</button>
-        <button v-else @click="close">关闭连接</button>
-      </template>
+      <button v-if="closed" @click="open">建立连接</button>
+      <button v-else @click="close">关闭连接</button>
+      
 
       <!-- 视频如何适应容器 -->
-      <template>
-        <label>适应容器：</label>
-        <select :value="videoFit" @change="handleVideoFit">
-          <option value="contain">保持比例</option>
-          <option value="fill">填充</option>
-        </select>
-      </template>
+      <label>适应容器：</label>
+      <select :value="videoFit" @change="handleVideoFit">
+        <option value="contain">保持比例</option>
+        <option value="fill">填充</option>
+      </select>
+      
+     
 
       <!-- 显示和隐藏 -->
-      <template>
-        <button v-if="hidden" @click="display">显示</button>
-        <button v-else @click="hide">隐藏</button>
-      </template>
+      <button v-if="hidden" @click="display">显示</button>
+      <button v-else @click="hide">隐藏</button>
+      
 
       <!-- 移动和更换容器 -->
-      <template>
-        <button @click="move">更换容器</button>
-      </template>
+      <button @click="move">更换容器</button>
+      
     </p>
     <!-- 播放器容器2 -->
     <div ref="playerContainer2" class="player-container2"></div>
