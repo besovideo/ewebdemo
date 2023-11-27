@@ -65,7 +65,7 @@
   </template>
   
   <script>
-  import BvPlayback from "bvplayback";
+  import BvPlayback from "@besovideo/bvplayback";
   export default {
     props: {
       token: String,
