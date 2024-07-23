@@ -27,6 +27,7 @@
 <script>
 import { clearAllDialog } from "@besovideo/webrtc-player";
 import "@besovideo/webrtc-player/dist/main.es.css";
+import { SHA256Timestamp } from "../../utils/shaUtils.ts";
 
 export default {
   name: "Player",
@@ -56,7 +57,7 @@ export default {
           },
           body: JSON.stringify({
             username,
-            password,
+            ...(await SHA256Timestamp(username, password)),
           }),
         });
         this.result = `${r.status} ${r.statusText}`;
@@ -67,7 +68,7 @@ export default {
           // 设置token
           this.token = res.data?.token;
           this.isLogin = true;
-          this.setCookie("Authorization",this.token,res.data?.timeout);
+          this.setCookie("Authorization", this.token, res.data?.timeout);
 
           return;
         }
@@ -116,7 +117,7 @@ export default {
           this.setCookie("username", user, 365);
         }
       }
-    }
+    },
   },
   mounted() {
     // 释放全部本地播放器打开过的dialog

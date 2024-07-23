@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@besovideo/bvplayback": "^0.0.3",
-    "@besovideo/webrtc-player": "^0.8.52",
+    "@besovideo/webrtc-player": "^0.8.80",
     "axios": "^1.6.1",
     "core-js": "^3.8.3",
     "element-plus": "^2.4.2",
@@ -21,7 +21,7 @@
     "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-plugin-typescript": "~5.0.0",
     "@vue/cli-plugin-vuex": "~5.0.0",
-    "@vue/cli-service": "~5.0.0",
+    "@vue/cli-service": "~5.0.1",
     "less": "^4.0.0",
     "less-loader": "^8.0.0",
     "typescript": "~4.5.5"

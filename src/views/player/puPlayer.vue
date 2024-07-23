@@ -9,22 +9,24 @@
     <h3>视频播放 PuPlayer</h3>
     <p>
       <button @click="puList">查看设备列表</button>
-      <select style="width:150px"  @change="dange">
-          <Option>请选择设备</Option>
-          <Option v-for="(item,index) in id" :key="index" >{{item.id}}</Option>         
-      </select> 
-      <label>通道号：</label
-      ><input
-        v-model.number="index"
-        type="text"
-        placeholder="通道号 （数字）"
-      />
+      <select style="width: 150px" @change="dange">
+        <Option>请选择设备</Option>
+        <Option v-for="(item, index) in id" :key="index">{{ item.id }}</Option>
+      </select>
+      <label>通道号：</label>
+
+      <select style="width: 150px" @change="onChannel">
+        <Option>请选择通道</Option>
+        <Option v-for="(item, index) in channeIndexs" :key="index">{{
+          item
+        }}</Option>
+      </select>
+      <!-- <input v-model.number="index" type="text" placeholder="通道号 （数字）" /> -->
     </p>
     <p>
       <!-- 初始化和销毁 -->
       <button v-if="!instance" @click="init">初始化播放器</button>
       <button v-else @click="destroy">销毁播放器</button>
-    
     </p>
     <!-- 播放器容器 -->
     <div ref="playerContainer" class="player-container"></div>
@@ -32,7 +34,6 @@
       <!-- 打开和关闭 -->
       <button v-if="closed" @click="open">建立连接</button>
       <button v-else @click="close">关闭连接</button>
-      
 
       <!-- 视频如何适应容器 -->
       <label>适应容器：</label>
@@ -40,17 +41,13 @@
         <option value="contain">保持比例</option>
         <option value="fill">填充</option>
       </select>
-      
-     
 
       <!-- 显示和隐藏 -->
       <button v-if="hidden" @click="display">显示</button>
       <button v-else @click="hide">隐藏</button>
-      
 
       <!-- 移动和更换容器 -->
       <button @click="move">更换容器</button>
-      
     </p>
     <!-- 播放器容器2 -->
     <div ref="playerContainer2" class="player-container2"></div>
@@ -73,7 +70,7 @@ export default {
   },
   data() {
     return {
-      r:"",
+      r: "",
       id: [],
       index: 0,
       videoFit: "fill",
@@ -97,7 +94,7 @@ export default {
           // 设备id
           id: this.r,
           // 设备通道号
-          index: 0,
+          index: this.index,
         },
         // 必填 用户授权令牌
         token: this.token,
@@ -125,15 +122,19 @@ export default {
 
       this.instance = instance;
     },
-    dange(e){
-      this.r=e.target.value;
+    dange(e) {
+      this.r = e.target.value;
       console.log(this.r);
     },
+    onChannel(e) {
+      this.index = Number(e.target.value);
+      console.log(this.index);
+    },
     //获取设备列表
-    async puList(){
+    async puList() {
       if (!this.token) return;
-      try{
-        const r=await fetch("/bvcsp/v1/pu/list",{
+      try {
+        const r = await fetch("/bvcsp/v1/pu/list", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -142,20 +143,21 @@ export default {
           body: JSON.stringify({
             page: 0,
             pageSize: 1000,
-            needStatus:true
+            needStatus: true,
           }),
         });
-      if (r.ok || (r.status >= 200 && r.status < 300)) {
+        if (r.ok || (r.status >= 200 && r.status < 300)) {
           const res = await r.json();
           //console.log(JSON.stringify(res));
           let data = res.data;
           this.id = [];
           if (data) {
             data.forEach((item) => {
-              if(item.status==1){
+              if (item.status == 1) {
                 let obj = {
-                id: item.id,
-              };
+                  id: item.id,
+                  channels: item.channels.map((item) => item.index),
+                };
                 //console.log(obj);
                 this.id.push(obj);
               }
@@ -165,9 +167,9 @@ export default {
           return;
         }
         //throw new Error(`${r.status} ${r.statusText}`);
-      }catch(e){
+      } catch (e) {
         console.error(e);
-      }  
+      }
     },
     // 销毁
     destroy() {
@@ -217,6 +219,14 @@ export default {
     },
   },
   mounted() {},
+  computed: {
+    channeIndexs: function() {
+      if (this.id) {
+        return this.id.find((item) => item.id == this.r)?.channels;
+      }
+      return []
+    },
+  },
 };
 </script>
 

@@ -21,6 +21,7 @@
 <script>
 import { clearAllDialog } from "@besovideo/webrtc-player";
 import "@besovideo/webrtc-player/dist/main.es.css";
+import { SHA256Timestamp } from "../../utils/shaUtils";
 
 export default {
   name: "Player",
@@ -40,9 +41,11 @@ export default {
     },
     // 登录
     async login() {
+      // https://bvcsp.apifox.cn/api-171248814
       const { username, password } = this;
       if (!username || !password) return;
       try {
+        const sha256T = SHA256Timestamp(username, password);
         const r = await fetch("/bvcsp/v1/auth/login", {
           method: "POST",
           headers: {
@@ -50,7 +53,7 @@ export default {
           },
           body: JSON.stringify({
             username,
-            password,
+            ...sha256T,
           }),
         });
         this.result = `${r.status} ${r.statusText}`;
@@ -61,7 +64,7 @@ export default {
           // 设置token
           this.token = res.data?.token;
           this.isLogin = true;
-          this.setCookie("Authorization",this.token,res.data?.timeout);
+          this.setCookie("Authorization", this.token, res.data?.timeout);
 
           return;
         }
@@ -98,7 +101,7 @@ export default {
     },
     setCookie: function (cname, cvalue, exsecond) {
       var d = new Date();
-      d.setTime(d.getTime() + (exsecond * 1000));
+      d.setTime(d.getTime() + exsecond * 1000);
       var expires = "expires=" + d.toUTCString();
       console.info(cname + "=" + cvalue + "; " + expires);
       document.cookie = cname + "=" + cvalue + "; " + expires;
@@ -107,13 +110,13 @@ export default {
     //获取cookie
     getCookie: function (cname) {
       var name = cname + "=";
-      var ca = document.cookie.split(';');
-      console.log("获取cookie,现在循环")
+      var ca = document.cookie.split(";");
+      console.log("获取cookie,现在循环");
       for (var i = 0; i < ca.length; i++) {
         var c = ca[i];
-        console.log(c)
-        while (c.charAt(0) == ' ') c = c.substring(1);
-        if (c.indexOf(name) != -1){
+        console.log(c);
+        while (c.charAt(0) == " ") c = c.substring(1);
+        if (c.indexOf(name) != -1) {
           return c.substring(name.length, c.length);
         }
       }
@@ -133,7 +136,7 @@ export default {
           this.setCookie("username", user, 365);
         }
       }
-    }
+    },
   },
   mounted() {
     // 释放全部本地播放器打开过的dialog
