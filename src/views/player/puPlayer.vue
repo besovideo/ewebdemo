@@ -156,7 +156,9 @@ export default {
               if (item.status == 1) {
                 let obj = {
                   id: item.id,
-                  channels: item.channels.map((item) => item.index),
+                  channels: item.channels
+                    ? item.channels.map((item) => item.index)
+                    : [],
                 };
                 //console.log(obj);
                 this.id.push(obj);
@@ -220,11 +222,11 @@ export default {
   },
   mounted() {},
   computed: {
-    channeIndexs: function() {
+    channeIndexs: function () {
       if (this.id) {
         return this.id.find((item) => item.id == this.r)?.channels;
       }
-      return []
+      return [];
     },
   },
 };
