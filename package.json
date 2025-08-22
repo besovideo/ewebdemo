@@ -7,8 +7,7 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "@besovideo/bvplayback": "^0.0.3",
-    "@besovideo/webrtc-player": "^0.8.80",
+    "@besovideo/webrtc-player": "^0.9.92",
     "axios": "^1.6.1",
     "core-js": "^3.8.3",
     "element-plus": "^2.4.2",

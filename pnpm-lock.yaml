@@ -5,12 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  '@besovideo/bvplayback':
-    specifier: ^0.0.3
-    version: 0.0.3
   '@besovideo/webrtc-player':
-    specifier: ^0.8.80
-    version: 0.8.80
+    specifier: ^0.9.92
+    version: 0.9.92
   axios:
     specifier: ^1.6.1
     version: 1.6.1
@@ -1378,15 +1375,12 @@ packages:
       '@babel/helper-validator-identifier': 7.24.7
       to-fast-properties: 2.0.0
 
-  /@besovideo/bvplayback@0.0.3:
-    resolution: {integrity: sha512-s+m2qtiVyXwRb7yDAAnXGmHqTNK0Jdr7/oQZvzqd+4tAGYa0ZCsCzU12UUrpmFGTNlJiqoFPAenRK6W2PU/8aA==}
-    dev: false
-
-  /@besovideo/webrtc-player@0.8.80:
-    resolution: {integrity: sha512-ll9aG1kGmcPdVdHBTbEyzrBo2HWw0ioOEMqvwoF3ZooyENbGpHcBlT0O8pLNPmnC2zueNUQl+dTCDAFJbwnuLg==}
+  /@besovideo/webrtc-player@0.9.92:
+    resolution: {integrity: sha512-jramrHngNXKxoeDyw7sJC2lUx4ljrHbewA0KoOsa8GpXtxXE1Mxh1O4+Ni02MoZJsHDaxBqfYLI2fpQ2avZgiQ==}
     dependencies:
       '@shirtiny/logger': 2.3.3
       i18next: 21.10.0
+      mp4box: 0.5.4
       tippy.js: 6.3.7
       tslib: 2.6.3
       webm-inspector: 1.0.1
@@ -5092,6 +5086,10 @@ packages:
   /module-alias@2.2.3:
     resolution: {integrity: sha512-23g5BFj4zdQL/b6tor7Ji+QY4pEfNH784BMslY9Qb0UnJWRAt+lQGLYmRaM0KDBwIG23ffEBELhZDP2rhi9f/Q==}
     dev: true
+
+  /mp4box@0.5.4:
+    resolution: {integrity: sha512-GcCH0fySxBurJtvr0dfhz0IxHZjc1RP+F+I8xw+LIwkU1a+7HJx8NCDiww1I5u4Hz6g4eR1JlGADEGJ9r4lSfA==}
+    dev: false
 
   /mrmime@2.0.0:
     resolution: {integrity: sha512-eu38+hdgojoyq63s+yTpN4XMBdt5l8HhMhc4VKLO9KM5caLIBvUm4thi7fFaxyTmCKeNnXZ5pAlBwCUnhA09uw==}
