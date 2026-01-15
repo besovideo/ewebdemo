@@ -45,7 +45,7 @@ export default {
       const { username, password } = this;
       if (!username || !password) return;
       try {
-        const sha256T = SHA256Timestamp(username, password);
+        const sha256T = await SHA256Timestamp(username, password);
         const r = await fetch("/bvcsp/v1/auth/login", {
           method: "POST",
           headers: {
