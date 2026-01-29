@@ -80,6 +80,8 @@ export default {
       id: [],
       mediaUrl: "",
       dialogVisible: false,
+      // 1: 平台文件  2: 设备文件
+      type: 1,
     }
   },
   methods: {
@@ -176,6 +178,7 @@ export default {
                   url: item.fileID,
                 };
                 this.recordFiles.push(obj);
+                this.type = 1;
               });
             }
           }
@@ -249,6 +252,7 @@ export default {
                 console.log("filePath:" + obj.filePath + ", fileName:" + obj.fileName + ", len:" + len + ", sl:" + startLen);
                 obj.url = obj.fileID;
                 this.recordFiles.push(obj);
+                this.type = 2;
               });
             }
           }
@@ -273,7 +277,10 @@ export default {
         }
         let xhr = new XMLHttpRequest();
         let formData = new FormData();
-        xhr.open('get', obj.url);  //url填写后台的接口地址，如果是post，在formData append参数（参考原文地址）
+        let URL = this.type === 1 ? 
+          `/bvnru/v1/download/${obj.url}` :
+          `/bvnru/v1/pu/download/${this.puid}/${obj.url}?download=true`  
+        xhr.open('get', URL);  //url填写后台的接口地址，如果是post，在formData append参数（参考原文地址）
         xhr.setRequestHeader("Authorization", this.token);
         xhr.responseType = 'blob';
         xhr.onload = function () {
