@@ -47,7 +47,7 @@
     <!-- <div class="playback-player" v-if="mediaUrl" @click="mediaUrl = ''">
       <video :src="mediaUrl" class="video" controls id="playback-video"></video>
     </div> -->
-    <el-dialog v-model="dialogVisible" draggable destroy-on-close title="视频回放" align-center>
+    <el-dialog v-model="dialogVisible" draggable destroy-on-close title="视频回放" align-center @closed="onDialogClosed">
       <!-- 视频回放组件的容器 -->
       <!-- 
         src:  视频播放的相对路径 平台文件:/bvnru/v1/download/文件ID  设备文件:/bvcsp/v1/pu/download/" + 设备ID + "/" + 文件ID
@@ -141,6 +141,7 @@ export default {
             page: 0,
             pageSize: 1000,
             filter: {
+              fileType: ['video'],
               beginTime: 946656000,
               endTime: Date.parse(new Date()) / 1000,
             },
@@ -309,11 +310,11 @@ export default {
         this.mediaUrl = obj.url;
 
 
-        if (this.playbackInstance) {
-          this.playbackInstance.close?.();
-          this.playbackInstance.destory?.();
-          this.playbackInstance = null;
-        }
+        // if (this.playbackInstance) {
+        //   this.playbackInstance.close?.();
+        //   this.playbackInstance.destory?.();
+        //   this.playbackInstance = null;
+        // }
 
         this.dialogVisible = true
 
@@ -344,6 +345,15 @@ export default {
       } catch (e) {
         console.error(e);
       }
+    },
+
+    onDialogClosed() {
+      if (this.playbackInstance) {
+        this.playbackInstance.close?.();
+        this.playbackInstance.destory?.();
+        this.playbackInstance = null;
+      }
+      this.mediaUrl = "";
     },
 
     cleanData() {
